@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Equality & Inequality Checker</title>
+</head>
+<body>
+  <script>
+    // 1. Get two values from the user
+    const value1 = prompt("Enter the first value:");
+    const value2 = prompt("Enter the second value:");
+
+    // 2. Determine data types
+    const type1 = typeof value1;
+    const type2 = typeof value2;
+
+    // 3. Convert values to number for demonstration
+    const num1 = Number(value1);
+    const num2 = Number(value2);
+
+    // 4. Perform comparisons
+    const isEqual = value1 == value2;
+    const isStrictEqual = value1 === value2;
+    const isNotEqual = value1 != value2;
+    const isStrictNotEqual = value1 !== value2;
+
+    // 5. Display results
+    let result = `Value 1: ${value1} (Type: ${type1})\n`;
+    result += `Value 2: ${value2} (Type: ${type2})\n\n`;
+
+    result += `== Comparison: ${isEqual}\n`;
+    result += isEqual
+      ? "→ Values are equal with type coercion.\n"
+      : "→ Values are not equal even with type coercion.\n";
+
+    result += `=== Comparison: ${isStrictEqual}\n`;
+    result += isStrictEqual
+      ? "→ Values and types are strictly equal.\n"
+      : "→ Either value or type is different.\n";
+
+    result += `!= Comparison: ${isNotEqual}\n`;
+    result += isNotEqual
+      ? "→ Values are not equal with type coercion.\n"
+      : "→ Values are equal with type coercion.\n";
+
+    result += `!== Comparison: ${isStrictNotEqual}\n`;
+    result += isStrictNotEqual
+      ? "→ Values or types are strictly not equal.\n"
+      : "→ Values and types are strictly equal.\n";
+
+    // 6. Show numeric conversion difference
+    result += `\nNumeric Conversion:\n`;
+    result += `Number(value1): ${num1}\n`;
+    result += `Number(value2): ${num2}\n`;
+
+    alert(result);
+  </script>
+</body>
+</html>

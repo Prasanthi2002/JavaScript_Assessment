@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Income Tax Calculator</title>
+</head>
+<body>
+    <h2>Income Tax Calculator</h2>
+    <form>
+        <label>Name:</label>
+        <input type="text" id="name"><br><br>
+
+        <label>PAN:</label>
+        <input type="text" id="pan"><br><br>
+
+        <label>Annual Income:</label>
+        <input type="number" id="income"><br><br>
+
+        <button type="button" onclick="calculateTax(mainCallback)">Calculate Tax</button>
+    </form>
+
+    <h3>Result:</h3>
+    <div id="result"></div>
+
+    <script>
+        let taxRecords = [];
+
+        function calculateTax(callback) {
+            let name = document.getElementById("name").value;
+            let pan = document.getElementById("pan").value;
+            let income = parseFloat(document.getElementById("income").value);
+            let tax = 0;
+
+            if (income <= 250000) tax = 0;
+            else if (income <= 500000) tax = (income - 250000) * 0.05;
+            else if (income <= 1000000) tax = (250000 * 0.05) + (income - 500000) * 0.2;
+            else tax = (250000 * 0.05) + (500000 * 0.2) + (income - 1000000) * 0.3;
+
+            const details = { name, pan, income, tax };
+            callback(details);
+        }
+
+        function mainCallback(details) {
+            logToConsole(details);
+            displayOnPage(details);
+            saveToRecords(details);
+        }
+
+        function logToConsole(details) {
+            console.log("Tax Details:", details);
+        }
+
+        function displayOnPage(details) {
+            document.getElementById("result").innerHTML =
+                `Name: ${details.name}<br>` +
+                `PAN: ${details.pan}<br>` +
+                `Income: ₹${details.income}<br>` +
+                `Calculated Tax: ₹${details.tax.toFixed(2)}`;
+        }
+
+        function saveToRecords(details) {
+            taxRecords.push(details);
+            console.log("Saved Records:", taxRecords);
+        }
+    </script>
+</body>
+</html>

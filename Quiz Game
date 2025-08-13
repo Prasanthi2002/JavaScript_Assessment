@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Quiz Game</title>
+</head>
+<body>
+  <script>
+    // 1. Welcome alert
+    alert("Welcome to the Quiz Game!");
+
+    // 2. Ask user's name
+    const userName = prompt("What's your name?");
+
+    // 3. Confirm readiness
+    const isReady = confirm(`Hi ${userName}, are you ready for the quiz?`);
+
+    // 4. If confirmed, ask a question
+    if (isReady) {
+      const answer = prompt("What is the capital of India?\nA) Mumbai\nB) Delhi\nC) Chennai\nD) Kolkata");
+
+      // 5. Check answer and show result
+      if (answer.toLowerCase() === "b" || answer.toLowerCase() === "delhi") {
+        alert("Correct! 🎉");
+      } else {
+        alert("Wrong answer. The correct answer is Delhi.");
+      }
+    } else {
+      alert("No worries! Come back when you're ready.");
+    }
+  </script>
+</body>
+</html>

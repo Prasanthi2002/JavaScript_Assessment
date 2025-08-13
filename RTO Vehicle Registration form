@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RTO Vehicle Registration</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .toast-container {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 1055;
+    }
+  </style>
+</head>
+<body class="bg-light">
+
+<div class="container my-4">
+  <h2 class="mb-3">RTO Vehicle Registration Form</h2>
+  <div class="progress mb-3">
+    <div id="formProgress" class="progress-bar" role="progressbar" style="width: 0%">0%</div>
+  </div>
+
+  <form id="rtoForm" class="needs-validation" novalidate>
+    <div class="accordion" id="formAccordion">
+
+      <!-- Owner Section -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="ownerHeading">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#ownerSection">
+            Owner Details
+          </button>
+        </h2>
+        <div id="ownerSection" class="accordion-collapse collapse show" data-bs-parent="#formAccordion">
+          <div class="accordion-body">
+            <div class="mb-3">
+              <label for="fullName" class="form-label">Full Name</label>
+              <input type="text" class="form-control" id="fullName" required>
+              <div class="invalid-feedback">Please enter your full name.</div>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="email" required>
+              <div class="invalid-feedback">Enter a valid email address.</div>
+            </div>
+            <div class="mb-3">
+              <label for="mobile" class="form-label">Mobile (India)</label>
+              <input type="tel" class="form-control" id="mobile" pattern="[6-9]\d{9}" required>
+              <div class="invalid-feedback">Enter a valid 10-digit Indian mobile number.</div>
+            </div>
+            <div class="mb-3">
+              <label for="dob" class="form-label">Date of Birth</label>
+              <input type="date" class="form-control" id="dob" required>
+              <div class="invalid-feedback">You must be at least 18 years old.</div>
+            </div>
+            <div class="mb-3">
+              <label for="aadhaar" class="form-label">Aadhaar Number</label>
+              <input type="text" class="form-control" id="aadhaar" pattern="\d{12}" required>
+              <div class="invalid-feedback">Enter a valid 12-digit Aadhaar number.</div>
+            </div>
+            <div class="mb-3">
+              <label for="pan" class="form-label">PAN</label>
+              <input type="text" class="form-control" id="pan" pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" required>
+              <div class="invalid-feedback">Enter a valid PAN (e.g., ABCDE1234F).</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional sections like Address, Vehicle, Compliance, Finance, Uploads, Declaration go here -->
+      <!-- For brevity, only Owner section is shown. You can replicate the structure for other sections. -->
+
+      <!-- Declaration Section -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="declHeading">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#declSection">
+            Declaration
+          </button>
+        </h2>
+        <div id="declSection" class="accordion-collapse collapse" data-bs-parent="#formAccordion">
+          <div class="accordion-body">
+            <div class="mb-3">
+              <input type="checkbox" id="terms" required>
+              <label for="terms">I agree to the terms and conditions.</label>
+              <div class="invalid-feedback">You must agree before submitting.</div>
+            </div>
+            <div class="mb-3">
+              <label for="captcha" class="form-label">What is 3 + 4?</label>
+              <input type="number" class="form-control" id="captcha" required>
+              <div class="invalid-feedback">Incorrect answer.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3" id="submitBtn" disabled>Submit</button>
+  </form>
+</div>
+
+<!-- Toast Notification -->
+<div class="toast-container">
+  <div class="toast align-items-center text-bg-success border-0" id="successToast" role="alert">
+    <div class="d-flex">
+      <div class="toast-body">Application submitted successfully!</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const form = document.getElementById('rtoForm');
+  const progressBar = document.getElementById('formProgress');
+  const submitBtn = document.getElementById('submitBtn');
+  const toast = new bootstrap.Toast(document.getElementById('successToast'));
+
+  form.addEventListener('input', () => {
+    const inputs = form.querySelectorAll('input, select, textarea');
+    let validCount = 0;
+    let totalRequired = 0;
+
+    inputs.forEach(input => {
+      if (input.required) {
+        totalRequired++;
+        if (input.checkValidity()) validCount++;
+      }
+    });
+
+    const percent = Math.round((validCount / totalRequired) * 100);
+    progressBar.style.width = percent + '%';
+    progressBar.textContent = percent + '%';
+
+    const captchaValid = document.getElementById('captcha').value == '7';
+    const termsChecked = document.getElementById('terms').checked;
+
+    submitBtn.disabled = !(validCount === totalRequired && captchaValid && termsChecked);
+  });
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (!form.checkValidity() || document.getElementById('captcha').value != '7') {
+      form.classList.add('was-validated');
+      return;
+    }
+
+    toast.show();
+    form.reset();
+    progressBar.style.width = '0%';
+    progressBar.textContent = '0%';
+    submitBtn.disabled = true;
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+// 1. Ask how many customers to register (hardcoded for demo)
+let numCustomers = 3;
+
+// 2. Use a dynamic array literal to store their names
+let customers = ["Raj", "Priya", "Karthik"];
+
+console.log("Original Customers:", customers.join(", "));
+
+// 3. Display customer names using for...of loop
+console.log("Customers using for...of:");
+for (let customer of customers) {
+    console.log(customer);
+}
+
+// 4. Display customer IDs (array indexes) using for...in loop
+console.log("Customer IDs using for...in:");
+for (let id in customers) {
+    console.log(id);
+}
+
+// 5. Add a new customer at the end using push()
+customers.push("Anita");
+console.log("After push('Anita'):", customers.join(", "));
+
+// 6. Remove the last customer using pop()
+customers.pop();
+console.log("After pop():", customers.join(", "));
+
+// 7. Insert a new customer at a specific position using splice()
+customers.splice(1, 0, "Vikram"); // Insert 'Vikram' at position 1
+console.log("After insert 'Vikram' at position 1:", customers.join(", "));
+
+// 8. Delete a customer at a specific position using splice() again
+customers.splice(2, 1); // Delete customer at position 2
+console.log("After delete at position 2:", customers.join(", "));
+
+// 9. Display the final customer list
+console.log("Final Customer List:", customers.join(", "));

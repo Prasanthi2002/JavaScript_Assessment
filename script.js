@@ -1,54 +1,51 @@
-// 🏏 Player 1: Virat Kohli
-const player1 = {
-  name: "Virat Kohli",
-  age: 36,
-  sport: "Cricket",
-  stats: {
-    matches: 500,
-    runs: 25000,
-    average: 57.2
+// 🔐 Closure-based Portfolio Tracker
+function createPortfolioTracker() {
+  const portfolio = []; // Private array
+
+  function buyShare(company, quantity, pricePerShare) {
+    const existing = portfolio.find(share => share.company === company);
+    if (existing) {
+      existing.quantity += quantity;
+      existing.pricePerShare = pricePerShare; // Update price if needed
+    } else {
+      portfolio.push({ company, quantity, pricePerShare });
+    }
+    log(`Bought ${quantity} shares of ${company} at ₹${pricePerShare} each.`);
   }
-};
 
-// ⚽ Player 2: Lionel Messi
-const player2 = {
-  name: "Lionel Messi",
-  age: 38,
-  sport: "Football",
-  stats: {
-    matches: 800,
-    goals: 720,
-    assists: 300
+  function sellShare(company, quantity) {
+    const existing = portfolio.find(share => share.company === company);
+    if (!existing || existing.quantity < quantity) {
+      log(`Cannot sell ${quantity} shares of ${company}. Not enough shares.`);
+      return;
+    }
+    existing.quantity -= quantity;
+    log(`Sold ${quantity} shares of ${company}.`);
+    if (existing.quantity === 0) {
+      portfolio.splice(portfolio.indexOf(existing), 1);
+    }
   }
-};
 
-// 🧰 Step 1: Object Destructuring for player1
-const {
-  name: name1,
-  sport: sport1,
-  stats: { matches: matches1, runs, average }
-} = player1;
+  function totalValue() {
+    const value = portfolio.reduce((sum, share) => sum + share.quantity * share.pricePerShare, 0);
+    log(`Portfolio Value: ₹${value}`);
+    return value;
+  }
 
-// 🧾 Step 2: Template Literal Output
-log(`Player ${name1} plays ${sport1}.`);
-log(`Matches: ${matches1} | Runs: ${runs} | Batting Average: ${average}`);
+  function log(message) {
+    document.getElementById("output").innerText += message + "\n";
+  }
 
-// 🧰 Step 3: Array of Players + Array Destructuring
-const players = [player1, player2];
-const [p1, p2] = players;
-
-// Destructure player2
-const {
-  name: name2,
-  sport: sport2,
-  stats: { matches: matches2, goals, assists }
-} = p2;
-
-// 🧾 Output for player2
-log(`Player ${name2} plays ${sport2}.`);
-log(`Matches: ${matches2} | Goals: ${goals} | Assists: ${assists}`);
-
-// 📋 Output function
-function log(message) {
-  document.getElementById("output").innerText += message + "\n";
+  return {
+    buyShare,
+    sellShare,
+    totalValue
+  };
 }
+
+// 🧪 Usage
+const tracker = createPortfolioTracker();
+tracker.buyShare("TCS", 10, 3500);       // ₹35,000
+tracker.buyShare("Infosys", 5, 1500);    // ₹7,500
+tracker.sellShare("TCS", 3);             // Sell 3 TCS
+tracker.totalValue();                    // ₹42,500

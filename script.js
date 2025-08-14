@@ -1,42 +1,54 @@
-// 📚 1. Create JSON array of books
-let books = [
-  { title: "JavaScript Basics", author: "Anu", price: 450, available: true },
-  { title: "HTML & CSS", author: "Devi", price: 350, available: false }
-];
+// 🏏 Player 1: Virat Kohli
+const player1 = {
+  name: "Virat Kohli",
+  age: 36,
+  sport: "Cricket",
+  stats: {
+    matches: 500,
+    runs: 25000,
+    average: 57.2
+  }
+};
 
-// 📋 Output helper
+// ⚽ Player 2: Lionel Messi
+const player2 = {
+  name: "Lionel Messi",
+  age: 38,
+  sport: "Football",
+  stats: {
+    matches: 800,
+    goals: 720,
+    assists: 300
+  }
+};
+
+// 🧰 Step 1: Object Destructuring for player1
+const {
+  name: name1,
+  sport: sport1,
+  stats: { matches: matches1, runs, average }
+} = player1;
+
+// 🧾 Step 2: Template Literal Output
+log(`Player ${name1} plays ${sport1}.`);
+log(`Matches: ${matches1} | Runs: ${runs} | Batting Average: ${average}`);
+
+// 🧰 Step 3: Array of Players + Array Destructuring
+const players = [player1, player2];
+const [p1, p2] = players;
+
+// Destructure player2
+const {
+  name: name2,
+  sport: sport2,
+  stats: { matches: matches2, goals, assists }
+} = p2;
+
+// 🧾 Output for player2
+log(`Player ${name2} plays ${sport2}.`);
+log(`Matches: ${matches2} | Goals: ${goals} | Assists: ${assists}`);
+
+// 📋 Output function
 function log(message) {
   document.getElementById("output").innerText += message + "\n";
 }
-
-// 📖 2. Display all books
-log("All Books:");
-for (const book of books) {
-  log(`Title: ${book.title}, Author: ${book.author}, Price: ${book.price}, Available: ${book.available} ₹`);
-}
-
-// ✅ 3. Display only available books
-log("\nAvailable Books:");
-for (const book of books) {
-  if (book.available) {
-    log(`Title: ${book.title}, Author: ${book.author}, Price: ${book.price} ₹`);
-  }
-}
-
-// ➕ 4. Add a new book
-books.push({ title: "Node.js Guide", author: "Kiran", price: 600, available: true });
-log("\nAfter Adding:");
-log(books.map(b => b.title).join(", "));
-
-// 💰 5. Update price of a specific book
-const jsBook = books.find(b => b.title === "JavaScript Basics");
-if (jsBook) {
-  jsBook.price = 500;
-}
-log("\nAfter Price Update:");
-log(`${jsBook.title} - ${jsBook.price} ₹`);
-
-// ❌ 6. Delete a book (remove "HTML & CSS")
-books = books.filter(b => b.title !== "HTML & CSS");
-log("\nAfter Deletion:");
-log(books.map(b => b.title).join(", "));
